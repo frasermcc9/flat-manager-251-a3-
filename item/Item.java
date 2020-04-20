@@ -3,12 +3,12 @@ package item;
 
 public abstract class Item {
 
-    protected String _creator;
-    protected String _title;
-    protected String _acquireDate;
-    protected String _owner;
-    protected String _cost;
-    protected String _format;
+    private String _creator;
+    private String _title;
+    private String _acquireDate;
+    private String _owner;
+    private String _cost;
+    private String _format;
 
     public Item(String creator, String title, String acquireDate, String owner, String cost, String type)
             throws InvalidFormatException {
