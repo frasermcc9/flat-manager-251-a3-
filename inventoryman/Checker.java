@@ -11,7 +11,7 @@ public class Checker {
 	/**
 	 * Set the amount of details to provide in reports.
 	 */
-	private static final boolean VERBOSE = true;
+	private static final boolean VERBOSE = false;
 
 	/**
 	 * Various constants to reduce errors.
