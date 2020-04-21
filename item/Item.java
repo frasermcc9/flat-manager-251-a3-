@@ -28,8 +28,8 @@ public abstract class Item {
         return this._creator;
     }
 
-    public Integer getId() {
-        Integer id = getId(_creator, _title, _format);
+    public String getId() {
+        String id = getId(_creator, _title, _format);
         return id;
     }
 
@@ -41,17 +41,36 @@ public abstract class Item {
         }
     }
 
-    
-
-    public static Integer getId(String creator, String title, String format) {
-        return (creator + title + format).hashCode();
+    public static String getId(String creator, String title, String format) {
+        return (creator + title + format);
     }
 
-    public String formatReport() {
-        String template = "%s: %s, '%s'. (%s)";
-        return String.format(template, _owner, _creator, _title, _format);
-    }
+    public abstract String formatReport();
 
     public abstract String getDetails();
+
+    protected String getCreator() {
+        return this._creator;
+    }
+
+    protected String getTitle() {
+        return this._title;
+    }
+
+    protected String getAcquireDate() {
+        return this._acquireDate;
+    }
+
+    protected String getOwner() {
+        return this._owner;
+    }
+
+    protected String getCost() {
+        return this._cost;
+    }
+
+    protected String getFormat() {
+        return this._format;
+    }
 
 }
