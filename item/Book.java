@@ -12,6 +12,8 @@ public class Book extends Item {
         _pubYear = pubYear;
         _publisher = publisher;
 
+        validInput(bookFormat);
+
     }
 
     @Override
@@ -21,10 +23,22 @@ public class Book extends Item {
 
     }
 
+
+    //TODO maybe look at calling a super class method with parameter of object type
     @Override
     public String formatReport() {
         String template = "%s: %s, '%s'. (%s)";
         return String.format(template, _owner, _creator, _title, _format);
+    }
+
+    public void validInput(String bookFormat) throws InvalidFormatException {
+        validInput();
+        if (!bookFormat.matches("^Hardcover|Paperback$")) {
+            throw new InvalidFormatException(
+                    "Bookformat is invalid. Please ensure format is 'Hardcover' or 'Paperback'");
+        } else if (!_pubYear.matches("^\\d{4}$")) {
+            throw new InvalidFormatException("Publish Year format is invalid. Please ensure the format is 4 digits.");
+        }
     }
 
 }
