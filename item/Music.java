@@ -15,10 +15,16 @@ public class Music extends Item {
     public String getDetails() {
         String template = "'%s' by %s, %s. (%s, %s, %s, %s)";
 
-        return String.format(template, _title, _creator, _releaseDate, _format, _owner, _acquireDate, _cost);
+        return String.format(template, getTitle(), getCreator(), _releaseDate, getFormat(), getOwner(),
+                getAcquireDate(), getCost());
 
     }
 
+    @Override
+    public String formatReport() {
+        String template = "%s: '%s' by %s (%s)";
+        return String.format(template, getOwner(), getTitle(), getCreator(), getFormat());
+    }
 
     public void validInput(String musicFormat) throws InvalidFormatException {
         validInput();

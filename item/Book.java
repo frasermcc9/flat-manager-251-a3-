@@ -19,16 +19,15 @@ public class Book extends Item {
     @Override
     public String getDetails() {
         String template = "%s, '%s'. (%s, %s). [%s, %s, %s, %s]";
-        return String.format(template, _creator, _title, _pubYear, _publisher, _format, _owner, _acquireDate, _cost);
+        return String.format(template, getCreator(), getTitle(), _pubYear, _publisher, getFormat(), getOwner(),
+                getAcquireDate(), getCost());
 
     }
 
-
-    //TODO maybe look at calling a super class method with parameter of object type
     @Override
     public String formatReport() {
         String template = "%s: %s, '%s'. (%s)";
-        return String.format(template, _owner, _creator, _title, _format);
+        return String.format(template, getOwner(), getCreator(), getTitle(), getFormat());
     }
 
     public void validInput(String bookFormat) throws InvalidFormatException {
