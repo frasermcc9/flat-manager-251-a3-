@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import item.Book;
-import item.Item;
+import item.AbstractItem;
 import item.ItemComparator;
 import item.Music;
 
@@ -17,7 +17,7 @@ public class InventoryManImpl implements InventoryMan {
 
     private String _flatName;
 
-    private Map<String, Item> _items = new HashMap<String, Item>();
+    private Map<String, AbstractItem> _items = new HashMap<String, AbstractItem>();
 
     public InventoryManImpl(String flatName) {
         _flatName = flatName;
@@ -63,19 +63,20 @@ public class InventoryManImpl implements InventoryMan {
 
     @Override
     public String getItemToDisplay(String creator, String title, String formatStr) {
-        String id = Item.getId(creator, title, formatStr);
-        Item retrievedItem = _items.get(id);
+        String id = AbstractItem.getId(creator, title, formatStr);
+        AbstractItem retrievedItem = _items.get(id);
         return retrievedItem.getDetails();
     }
 
     @Override
     public List<String> getAll(String order) throws IllegalArgumentException {
-        List<Item> items = new ArrayList<Item>(_items.values());
+        List<AbstractItem> items = new ArrayList<AbstractItem>(_items.values());
         ItemComparator key = ItemComparator.valueOf(order);
+
         Collections.sort(items, key);
 
         List<String> output = new ArrayList<String>();
-        for (Item a : items) {
+        for (AbstractItem a : items) {
             output.add(a.getDetails());
         }
         return output;
@@ -83,13 +84,13 @@ public class InventoryManImpl implements InventoryMan {
 
     @Override
     public List<String> getItemsAcquiredInYear(String year) {
-        List<Item> items = new ArrayList<Item>(_items.values());
+        List<AbstractItem> items = new ArrayList<AbstractItem>(_items.values());
         ItemComparator key = ItemComparator.Acquisition;
 
         Collections.sort(items, key);
 
         List<String> output = new ArrayList<String>();
-        for (Item a : items) {
+        for (AbstractItem a : items) {
             if (a.checkIfAcquiredInYear(year)) {
                 output.add(a.getDetails());
             }
@@ -100,8 +101,8 @@ public class InventoryManImpl implements InventoryMan {
     @Override
     public List<String> getCreators() {
         Set<String> creators = new HashSet<String>();
-        for (Item a : new ArrayList<Item>(_items.values()))
-            creators.add(a.findCreator());
+        for (AbstractItem a : new ArrayList<AbstractItem>(_items.values()))
+            creators.add(a.getCreator());
         List<String> output = new ArrayList<String>(creators);
         Collections.sort(output);
         return output;
@@ -110,14 +111,14 @@ public class InventoryManImpl implements InventoryMan {
     @Override
     public List<String> getFlatReport() {
         List<String> output = new ArrayList<String>();
-        List<Item> items = new ArrayList<Item>(_items.values());
+        List<AbstractItem> items = new ArrayList<AbstractItem>(_items.values());
 
         output.add(_flatName);
 
         Collections.sort(items, ItemComparator.orderSort(ItemComparator.Owner, ItemComparator.Format,
                 ItemComparator.Creator, ItemComparator.Title));
 
-        for (Item a : items) {
+        for (AbstractItem a : items) {
             output.add(a.formatReport());
         }
 
