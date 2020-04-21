@@ -2,6 +2,7 @@ package inventoryman;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,11 +17,10 @@ public class InventoryManImpl implements InventoryMan {
 
     private String _flatName;
 
-    private HashMap<Integer, Item> _items = new HashMap<Integer, Item>();
+    private Map<String, Item> _items = new HashMap<String, Item>();
 
     public InventoryManImpl(String flatName) {
         _flatName = flatName;
-
     }
 
     @Override
@@ -63,7 +63,7 @@ public class InventoryManImpl implements InventoryMan {
 
     @Override
     public String getItemToDisplay(String creator, String title, String formatStr) {
-        Integer id = Item.getId(creator, title, formatStr);
+        String id = Item.getId(creator, title, formatStr);
         Item retrievedItem = _items.get(id);
         return retrievedItem.getDetails();
     }
@@ -110,29 +110,12 @@ public class InventoryManImpl implements InventoryMan {
     @Override
     public List<String> getFlatReport() {
         List<String> output = new ArrayList<String>();
+        List<Item> items = new ArrayList<Item>(_items.values());
 
         output.add(_flatName);
 
-        List<Item> books = new ArrayList<Item>();
-        List<Item> music = new ArrayList<Item>();
-        List<Item> items = new ArrayList<Item>(_items.values());
-
-        for (Item a : items) {
-            if (a instanceof Book)
-                books.add(a);
-            else
-                music.add(a);
-        }
-        items.clear();
-        Collections.sort(books, ItemComparator.Title);
-        Collections.sort(books, ItemComparator.Creator);
-        Collections.sort(music, ItemComparator.Title);
-        Collections.sort(music, ItemComparator.Creator);
-
-        items.addAll(books);
-        items.addAll(music);
-
-        Collections.sort(items, ItemComparator.Owner);
+        Collections.sort(items, ItemComparator.orderSort(ItemComparator.Owner, ItemComparator.Format,
+                ItemComparator.Creator, ItemComparator.Title));
 
         for (Item a : items) {
             output.add(a.formatReport());
