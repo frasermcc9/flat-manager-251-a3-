@@ -1,6 +1,5 @@
 package item;
 
-
 public abstract class Item {
 
     private String _creator;
@@ -19,11 +18,6 @@ public abstract class Item {
         _cost = cost;
         _format = type;
 
-        if (!validDate())
-            throw new InvalidFormatException("Date is not a valid format. Please use YYYY-MM-DD");
-        if (!validCost())
-            throw new InvalidFormatException("Cost is not a valid format. Please use $Dollars.Cents");
-
     }
 
     public boolean checkIfAcquiredInYear(String year) {
@@ -39,20 +33,25 @@ public abstract class Item {
         return id;
     }
 
+    public void validInput() throws InvalidFormatException {
+        if (!_acquireDate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+            throw new InvalidFormatException("Date is not a valid format. Please use YYYY-MM-DD");
+        } else if (!_cost.matches("^[$]\\d+.\\d{2}$")) {
+            throw new InvalidFormatException("Cost is not a valid format. Please use $Dollars.Cents");
+        }
+    }
+
+    
+
     public static Integer getId(String creator, String title, String format) {
         return (creator + title + format).hashCode();
     }
 
-    private boolean validDate() {
-        return _acquireDate.matches("^\\d{4}-\\d{2}-\\d{2}$");
-    }
-
-    private boolean validCost() {
-        return _cost.matches("^[$]\\d+.\\d{2}$");
+    public String formatReport() {
+        String template = "%s: %s, '%s'. (%s)";
+        return String.format(template, _owner, _creator, _title, _format);
     }
 
     public abstract String getDetails();
-
-    public abstract String formatReport();
 
 }
