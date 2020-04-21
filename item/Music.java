@@ -47,13 +47,14 @@ public class Music extends AbstractItem {
     }
 
     /**
-     * checks if music specific fields are of valid format
+     * checks if music specific fields are of valid format. If the checks fail,
+     * throws InvalidFormatException.
      * 
      * @param musicFormat the format of the music
      * @throws InvalidFormatException
      */
     private void validInput(String musicFormat) throws InvalidFormatException {
-        validInput();
+        validInput(); // calls validInput() from super class
         if (!musicFormat.matches("^CD|LP$")) {
             throw new InvalidFormatException("CD Format is invalid. Please ensure format is 'CD' or 'LP'");
         } else if (!_releaseDate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
