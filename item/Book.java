@@ -1,6 +1,6 @@
 package item;
 
-public class Book extends Item {
+public class Book extends AbstractItem {
 
     private String _pubYear;
     private String _publisher;
@@ -29,7 +29,7 @@ public class Book extends Item {
         String template = "%s: %s, '%s'. (%s)";
         return String.format(template, getOwner(), getCreator(), getTitle(), getFormat());
     }
-
+    
     public void validInput(String bookFormat) throws InvalidFormatException {
         validInput();
         if (!bookFormat.matches("^Hardcover|Paperback$")) {
