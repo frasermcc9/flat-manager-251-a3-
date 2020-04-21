@@ -1,6 +1,5 @@
 package item;
 
-
 public class Music extends Item {
     private String _releaseDate;
 
@@ -8,6 +7,8 @@ public class Music extends Item {
             String musicFormat) throws InvalidFormatException {
         super(artist, title, acquireDate, owner, cost, musicFormat);
         _releaseDate = releaseDate;
+
+        validInput(musicFormat);
     }
 
     @Override
@@ -18,9 +19,13 @@ public class Music extends Item {
 
     }
 
-    @Override
-    public String formatReport() {
-        String template = "%s: '%s' by %s (%s)";
-        return String.format(template, _owner, _title, _creator, _format);
+
+    public void validInput(String musicFormat) throws InvalidFormatException {
+        validInput();
+        if (!musicFormat.matches("^CD|LP$")) {
+            throw new InvalidFormatException("CD Format is invalid. Please ensure format is 'CD' or 'LP'");
+        } else if (!_releaseDate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+            throw new InvalidFormatException("Publish Year format is invalid. Please ensure the format is 4 digits.");
+        }
     }
 }
