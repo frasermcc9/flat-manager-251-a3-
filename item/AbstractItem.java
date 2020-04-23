@@ -60,7 +60,7 @@ public abstract class AbstractItem {
     protected void validInput() throws InvalidFormatException {
         if (!_acquireDate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
             throw new InvalidFormatException("Date is not a valid format. Please use YYYY-MM-DD");
-        } else if (!_cost.matches("^[$]\\d+.\\d{2}$")) {
+        } else if (!_cost.matches("^[$]\\d+[.]\\d{2}$")) {
             throw new InvalidFormatException("Cost is not a valid format. Please use $Dollars.Cents");
         }
     }
@@ -93,7 +93,8 @@ public abstract class AbstractItem {
     }
 
     // Protected methods for accessing private members of this class from its
-    // subclasses. Intended for use with displaying information.
+    // subclasses. Intended for use within the item package, for displaying
+    // information and sorting.
 
     protected String getTitle() {
         return this._title;
