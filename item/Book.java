@@ -57,7 +57,7 @@ public class Book extends AbstractItem {
      */
     public void validInput(String bookFormat, String pubYear) throws InvalidFormatException {
         validInput();
-        if (!bookFormat.matches("^Hardcover|Paperback$")) {
+        if (!bookFormat.matches("^(Hardcover)|(Paperback)$")) {
             throw new InvalidFormatException(
                     "Bookformat is invalid. Please ensure format is 'Hardcover' or 'Paperback'");
         } else if (!pubYear.matches("^\\d{4}$")) {
