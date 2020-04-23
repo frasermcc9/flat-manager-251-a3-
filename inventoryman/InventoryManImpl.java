@@ -16,7 +16,9 @@ import item.Music;
 public class InventoryManImpl implements InventoryMan {
 
     private String _flatName;
-    private Map<String, AbstractItem> _items = new HashMap<String, AbstractItem>();
+    private InventoryCollection _items = new InventoryCollection();
+    // private Map<String, AbstractItem> _items = new HashMap<String,
+    // AbstractItem>();
 
     public InventoryManImpl(String flatName) {
         _flatName = flatName;
@@ -26,16 +28,8 @@ public class InventoryManImpl implements InventoryMan {
     public String addBook(String author, String title, String publicationYear, String publisher,
             String acquisitionDateStr, String owner, String costStr, String formatStr) {
         try {
-            Book newBook = new Book(author, title, publicationYear, publisher, acquisitionDateStr, owner, costStr,
+            return _items.newBook(author, title, publicationYear, publisher, acquisitionDateStr, owner, costStr,
                     formatStr);
-
-            if (_items.containsKey(newBook.getId()))
-                throw new DuplicateItemException("Duplicate item added to inventory:" + newBook.getId());
-
-            _items.put(newBook.getId(), newBook);
-
-            return "Success";
-
         } catch (Exception e) {
             return "ERROR " + e.getMessage();
         }
