@@ -148,8 +148,8 @@ public class InventoryCollection {
      * object, with format {@link item.AbstractItem#getDetails()} (see
      * implementations of method)
      * 
-     * @param originaList the list of objects to convert
-     * @return the list of string equivilent
+     * @param originaList the list of item objects to stringify
+     * @return the list of string representations for the object list
      */
     private List<String> getDetailsList(List<AbstractItem> originaList) {
         List<String> output = new ArrayList<String>();
@@ -159,6 +159,16 @@ public class InventoryCollection {
         return output;
     }
 
+    /**
+     * Overload of getDetailsList which also accepts a flat name. If provided, this
+     * will adjust the string representations to the report format, see
+     * implementations of {@link item.AbstractItem#formatReport()}.
+     * 
+     * @param originaList the list of item objects to stringify
+     * @param flatName    the name of the flat (for the header)
+     * @return the list of string representations of the object list in report
+     *         format, with the flatname heading.
+     */
     private List<String> getDetailsList(List<AbstractItem> originaList, String flatName) {
         List<String> output = new ArrayList<String>();
         output.add(flatName);
