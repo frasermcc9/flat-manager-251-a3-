@@ -55,7 +55,7 @@ public class Music extends AbstractItem {
      */
     private void validInput(String musicFormat) throws InvalidFormatException {
         validInput(); // calls validInput() from super class
-        if (!musicFormat.matches("^CD|LP$")) {
+        if (!musicFormat.matches("^(CD)|(LP)$")) {
             throw new InvalidFormatException("CD Format is invalid. Please ensure format is 'CD' or 'LP'");
         } else if (!_releaseDate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
             throw new InvalidFormatException("Publish Year format is invalid. Please ensure the format is 4 digits.");
