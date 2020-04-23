@@ -1,22 +1,21 @@
 package inventoryman;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
-import item.Book;
 import item.AbstractItem;
+import item.Book;
 import item.ItemComparator;
 import item.Music;
 
 public class InventoryManImpl implements InventoryMan {
 
     private String _flatName;
-
     private Map<String, AbstractItem> _items = new HashMap<String, AbstractItem>();
 
     public InventoryManImpl(String flatName) {
@@ -40,7 +39,6 @@ public class InventoryManImpl implements InventoryMan {
         } catch (Exception e) {
             return "ERROR " + e.getMessage();
         }
-
     }
 
     @Override
@@ -58,7 +56,6 @@ public class InventoryManImpl implements InventoryMan {
         } catch (Exception e) {
             return "ERROR " + e.getMessage();
         }
-
     }
 
     @Override
