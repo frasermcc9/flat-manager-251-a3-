@@ -42,7 +42,7 @@ public class InventoryManImpl implements InventoryMan {
         try {
             return _flatCollection.findByProperties(creator, title, formatStr).getDetails();
         } catch (Exception e) {
-            return e.getMessage();
+            return e.getMessage(); //if no item is found
         }
     }
 
@@ -51,13 +51,13 @@ public class InventoryManImpl implements InventoryMan {
         try {
             return _flatCollection.getItemDetailsByOrder(order);
         } catch (Exception e) {
-            return _flatCollection.getItemDetailsByOrder("Title"); // if an invalid key given, then just order by title.
+            return _flatCollection.getItemDetailsByOrder("Title"); // if given an invalid key, then just order by title.
         }
     }
 
     @Override
     public List<String> getItemsAcquiredInYear(String year) {
-        return _flatCollection.getItemDetailsAcquiredIn(year);
+        return _flatCollection.getItemDetailsAcquiredInYear(year);
     }
 
     @Override
