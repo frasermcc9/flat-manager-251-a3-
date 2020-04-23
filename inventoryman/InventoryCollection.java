@@ -1,73 +1,104 @@
 package inventoryman;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.Set;
 
 import item.AbstractItem;
-import item.Book;
-import item.InvalidFormatException;
-import item.Music;
+import item.ItemComparator;
 
 public class InventoryCollection {
-    private Map<String, Book> _books = new HashMap<String, Book>();
-    private Map<String, Music> _music = new HashMap<String, Music>();
 
-    private enum ItemTypes {
-        Book {
-            public String newItem() {
-
-            }
-
-        },
-        Music {
-            public String newItem() {
-
-            }
-
-        }
-    }
+    private Map<String, AbstractItem> _items = new HashMap<String, AbstractItem>();
 
     /**
-     * Adss a book to the inventory
+     * Adds a child of abstractitem to the collection.
      * 
-     * @param author
-     * @param title
-     * @param pubYear
-     * @param publisher
-     * @param acqDate
-     * @param owner
-     * @param costStr
-     * @param formatStr
-     * @return String of form "Success"
-     * @throws InvalidFormatException If the item was of incorrect format
-     * @throws DuplicateItemException If the item was duplicate
+     * @param item object that extends abstract item to add to the collection.
+     * @return string containing "Success".
+     * @throws DuplicateItemException if the item is already in the collection.
      */
-    public String newBook(String author, String title, String pubYear, String publisher, String acqDate, String owner,
-            String costStr, String formatStr) throws InvalidFormatException, DuplicateItemException {
-
-        Book newBook = new Book(author, title, pubYear, publisher, acqDate, owner, costStr, formatStr);
-
-        if (_books.containsKey(newBook.getId()))
-            throw new DuplicateItemException("Duplicate item added to inventory:" + newBook.getId());
-
-        _books.put(newBook.getId(), newBook);
-
+    public String itemHandler(AbstractItem item) throws DuplicateItemException {
+        if (_items.containsKey(item.getId())) {
+            throw new DuplicateItemException("Duplicate item added to inventory:" + item.getId());
+        }
+        _items.put(item.getId(), item);
         return "Success";
     }
 
-    public String newMusic(String artist, String title, String releaseDateStr, String acquisitionDateStr, String owner,
-            String costStr, String formatStr) throws InvalidFormatException, DuplicateItemException {
-
-        Music newMusic = new Music(artist, title, releaseDateStr, acquisitionDateStr, owner, costStr, formatStr);
-
-        if (_music.containsKey(newMusic.getId()))
-            throw new DuplicateItemException("Duplicate item added to inventory:" + newMusic.getId());
-
-        _music.put(newMusic.getId(), newMusic);
-
-        return "Success";
+    public AbstractItem findByIdString(String id) throws NoSuchElementException {
+        if (_items.get(id) == null) {
+            throw new NoSuchElementException();
+        }
+        return _items.get(id);
     }
 
+    public AbstractItem findByProperties(String creator, String title, String formatStr) throws NoSuchElementException {
+        String id = AbstractItem.getId(creator, title, formatStr);
+        return findByIdString(id);
+    }
+
+    public List<String> getItemDetailsByOrder(String orderKey) throws IllegalArgumentException {
+        return getDetailsList(getItemsByOrder(orderKey));
+    }
+
+    public List<String> getItemDetailsAcquiredIn(String year) {
+        return getDetailsList(getItemsAcquiredInYear(year));
+    }
+
+    public List<String> getCreators() {
+        return new ArrayList<String>(getCreatorSet());
+    }
+
+    public List<String> inventoryReport(String flatName) {
+        List<AbstractItem> items = new ArrayList<AbstractItem>(_items.values());
+        Collections.sort(items, ItemComparator.orderSort(ItemComparator.Owner, ItemComparator.Format,
+                ItemComparator.Creator, ItemComparator.Title));
+        return getDetailsList(items, flatName);
+    }
+
+    private Set<String> getCreatorSet() {
+        Set<String> creators = new HashSet<String>();
+        for (AbstractItem a : new ArrayList<AbstractItem>(_items.values()))
+            creators.add(a.getCreator());
+        return creators;
+    }
+
+    private List<AbstractItem> getItemsAcquiredInYear(String year) {
+        List<AbstractItem> items = new ArrayList<AbstractItem>();
+        for (AbstractItem i : new ArrayList<AbstractItem>(_items.values())) {
+            if (i.checkIfAcquiredInYear(year)) {
+                items.add(i);
+            }
+        }
+        return items;
+    }
+
+    private List<AbstractItem> getItemsByOrder(String orderKey) throws IllegalArgumentException {
+        List<AbstractItem> items = new ArrayList<AbstractItem>(_items.values());
+        Collections.sort(items, ItemComparator.valueOf(orderKey));
+        return items;
+    }
+
+    private List<String> getDetailsList(List<AbstractItem> originaList) {
+        List<String> output = new ArrayList<String>();
+        for (AbstractItem i : originaList) {
+            output.add(i.getDetails());
+        }
+        return output;
+    }
+
+    private List<String> getDetailsList(List<AbstractItem> originaList, String flatName) {
+        List<String> output = new ArrayList<String>();
+        output.add(flatName);
+        for (AbstractItem i : originaList) {
+            output.add(i.formatReport());
+        }
+        return output;
+    }
 }
