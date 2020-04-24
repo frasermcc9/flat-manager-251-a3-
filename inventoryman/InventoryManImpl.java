@@ -1,8 +1,10 @@
 package inventoryman;
 
 import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
+import item.AbstractItem;
 import item.Book;
 import item.Music;
 
@@ -42,33 +44,70 @@ public class InventoryManImpl implements InventoryMan {
         try {
             return _flatCollection.findByProperties(creator, title, formatStr).getDetails();
         } catch (Exception e) {
-            return e.getMessage(); //if no item is found
+            return e.getMessage(); // if no item is found
         }
     }
 
     @Override
     public List<String> getAll(String order) {
         try {
-            return _flatCollection.getItemDetailsByOrder(order);
+            return getDetailsList(_flatCollection.getItemsByOrder(order));
         } catch (Exception e) {
-            return _flatCollection.getItemDetailsByOrder("Title"); // if given an invalid key, then just order by title.
+            // if given an invalid key, then just order by title.
+            return getDetailsList(_flatCollection.getItemsByOrder("Title"));
         }
     }
 
     @Override
     public List<String> getItemsAcquiredInYear(String year) {
-        return _flatCollection.getItemDetailsAcquiredInYear(year);
+        return getDetailsList(_flatCollection.getItemsAcquiredInYear(year));
     }
 
     @Override
     public List<String> getCreators() {
-        List<String> output = _flatCollection.getCreators();
+        List<String> output = new ArrayList<String>(_flatCollection.getCreatorSet());
         Collections.sort(output);
         return output;
     }
 
     @Override
     public List<String> getFlatReport() {
-        return _flatCollection.inventoryReport(_flatName);
+        return getDetailsList(_flatCollection.inventoryReport(), _flatName);
+    }
+
+    /**
+     * turns a list of item objects into a list of string representations of each
+     * object, with format {@link item.AbstractItem#getDetails()} (see
+     * implementations of method). This method does not depend on object state.
+     * 
+     * @param originaList the list of item objects to stringify
+     * @return the list of string representations for the object list
+     */
+    private static List<String> getDetailsList(List<AbstractItem> originaList) {
+        List<String> output = new ArrayList<String>();
+        for (AbstractItem i : originaList) {
+            output.add(i.getDetails());
+        }
+        return output;
+    }
+
+    /**
+     * Overload of getDetailsList which also accepts a flat name. If provided, this
+     * will adjust the string representations to the report format, see
+     * implementations of {@link item.AbstractItem#formatReport()}. This method does
+     * not depend on object state.
+     * 
+     * @param originaList the list of item objects to stringify
+     * @param flatName    the name of the flat (for the header)
+     * @return the list of string representations of the object list in report
+     *         format, with the flatname heading.
+     */
+    private static List<String> getDetailsList(List<AbstractItem> originaList, String flatName) {
+        List<String> output = new ArrayList<String>();
+        output.add(flatName);
+        for (AbstractItem i : originaList) {
+            output.add(i.formatReport());
+        }
+        return output;
     }
 }
