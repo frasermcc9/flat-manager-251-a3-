@@ -47,8 +47,7 @@ public abstract class AbstractItem {
      * @return the id of this item.
      */
     public String getId() {
-        String id = getId(_creator, _title, _format);
-        return id;
+        return _creator + _title + _format;
     }
 
     /**
@@ -63,20 +62,6 @@ public abstract class AbstractItem {
         } else if (!_cost.matches("^[$]\\d+[.]\\d{2}$")) {
             throw new InvalidFormatException("Cost is not a valid format. Please use $Dollars.Cents");
         }
-    }
-
-    /**
-     * Static method that gets the id of the given parameters. The system does not
-     * allow duplicates (defined as same creator, title and format) so this id must
-     * be unique.
-     * 
-     * @param creator item creator
-     * @param title   item title
-     * @param format  item format
-     * @return the item of this id.
-     */
-    public static String getId(String creator, String title, String format) {
-        return (creator + title + format);
     }
 
     public abstract String formatReport();
