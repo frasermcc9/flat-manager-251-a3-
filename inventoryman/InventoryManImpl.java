@@ -76,9 +76,15 @@ public class InventoryManImpl implements InventoryMan {
     }
 
     /**
+     * The following methods turn lists of AbstractItem (which are commonly returned
+     * from {@link inventoryman.InventoryCollection#InventoryCollection()} methods)
+     * into a list of their string representations.
+     */
+
+    /**
      * turns a list of item objects into a list of string representations of each
      * object, with format {@link item.AbstractItem#getDetails()} (see
-     * implementations of method). This method does not depend on object state.
+     * implementations of method).
      * 
      * @param originaList the list of item objects to stringify
      * @return the list of string representations for the object list
@@ -94,8 +100,7 @@ public class InventoryManImpl implements InventoryMan {
     /**
      * Overload of getDetailsList which also accepts a flat name. If provided, this
      * will adjust the string representations to the report format, see
-     * implementations of {@link item.AbstractItem#formatReport()}. This method does
-     * not depend on object state.
+     * implementations of {@link item.AbstractItem#formatReport()}.
      * 
      * @param originaList the list of item objects to stringify
      * @param flatName    the name of the flat (for the header)
