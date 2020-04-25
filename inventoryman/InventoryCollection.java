@@ -12,8 +12,16 @@ import java.util.Set;
 import item.AbstractItem;
 import item.ItemComparator;
 
+/**
+ * A class for the collection of items held by the flat.
+ */
 public class InventoryCollection {
 
+    /**
+     * This map stores all items. The key of each item is its ID, which is a
+     * concatenation of the items creator, title and format. The value is the actual
+     * item object.
+     */
     private Map<String, AbstractItem> _items = new HashMap<String, AbstractItem>();
 
     /**
@@ -36,7 +44,7 @@ public class InventoryCollection {
      * 
      * @param id the id of the object
      * @return the item that the id represented
-     * @throws NoSuchElementException if there is no item stored with the given id
+     * @throws NoSuchElementException thrown if there is no item with the given id
      */
     public AbstractItem findByIdString(String id) throws NoSuchElementException {
         if (_items.get(id) == null) {
@@ -52,7 +60,7 @@ public class InventoryCollection {
      * @param title     title of item
      * @param formatStr format of item
      * @return the item with these properties
-     * @throws NoSuchElementException if no item is found
+     * @throws NoSuchElementException thrown if no item is found
      */
     public AbstractItem findByProperties(String creator, String title, String formatStr) throws NoSuchElementException {
         String id = getId(creator, title, formatStr);
@@ -60,7 +68,8 @@ public class InventoryCollection {
     }
 
     /**
-     * returns a list of item objects in the collection sorted by the given key
+     * returns a list of item objects in the collection sorted by the given key, and
+     * then by title if there are any equalities.
      * 
      * @param orderKey the key to order by
      * @return a list of item objects ordered
@@ -68,7 +77,7 @@ public class InventoryCollection {
      */
     public List<AbstractItem> getItemsByOrder(String orderKey) throws IllegalArgumentException {
         List<AbstractItem> items = new ArrayList<AbstractItem>(_items.values());
-        Collections.sort(items, ItemComparator.valueOf(orderKey));
+        Collections.sort(items, ItemComparator.orderSort(ItemComparator.valueOf(orderKey), ItemComparator.Title));
         return items;
     }
 
@@ -96,7 +105,7 @@ public class InventoryCollection {
     public Set<String> getCreatorSet() {
         Set<String> creators = new HashSet<String>();
         for (AbstractItem a : new ArrayList<AbstractItem>(_items.values()))
-            creators.add(a.getCreator());
+            creators.add(a.getCreator()); // duplicate values won't be added
         return creators;
     }
 
