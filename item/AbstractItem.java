@@ -7,7 +7,7 @@ public abstract class AbstractItem {
 
     private String _creator;
     private String _title;
-    private String _acquireDate;
+    private CustomDate _acquireDate;
     private String _owner;
     private String _cost;
     private String _format;
@@ -27,7 +27,7 @@ public abstract class AbstractItem {
             throws InvalidFormatException {
         _creator = creator;
         _title = title;
-        _acquireDate = acquireDate;
+        _acquireDate = new CustomDate(acquireDate);
         _owner = owner;
         _cost = cost;
         _format = type;
@@ -41,7 +41,7 @@ public abstract class AbstractItem {
      * @return boolean of whether the item was acquired in the year.
      */
     public boolean checkIfAcquiredInYear(String year) {
-        return _acquireDate.substring(0, 4).equals(year);
+        return _acquireDate.getYear().equals(year);
     }
 
     /**
@@ -51,20 +51,6 @@ public abstract class AbstractItem {
      */
     public String getId() {
         return _creator + _title + _format;
-    }
-
-    /**
-     * checks if the fields of this item are a valid format. If the checks fail,
-     * this method will throw InvalidFormatException
-     * 
-     * @throws InvalidFormatException
-     */
-    protected void validInput() throws InvalidFormatException {
-        if (!_acquireDate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
-            throw new InvalidFormatException("Date is not a valid format. Please use YYYY-MM-DD");
-        } else if (!_cost.matches("^[$]\\d+[.]\\d{2}$")) {
-            throw new InvalidFormatException("Cost is not a valid format. Please use $Dollars.Cents");
-        }
     }
 
     public abstract String formatReport();
@@ -89,7 +75,7 @@ public abstract class AbstractItem {
     }
 
     protected String getAcquireDate() {
-        return this._acquireDate;
+        return this._acquireDate.stringifyDate();
     }
 
     protected String getOwner() {
