@@ -1,5 +1,8 @@
 package item;
 
+/**
+ * A class for music items.
+ */
 public class Music extends AbstractItem {
     private String _releaseDate;
 

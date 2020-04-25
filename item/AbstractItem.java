@@ -1,5 +1,8 @@
 package item;
 
+/**
+ * A class representing any item that can be added to the flat collection.
+ */
 public abstract class AbstractItem {
 
     private String _creator;

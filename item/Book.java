@@ -1,5 +1,8 @@
 package item;
 
+/**
+ * A class for book items.
+ */
 public class Book extends AbstractItem {
 
     private String _pubYear;
