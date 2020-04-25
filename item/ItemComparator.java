@@ -4,7 +4,9 @@ import java.util.Comparator;
 
 /**
  * a comparison enum which compares objects that extend the Item class, by
- * speicific keys. Each enumeral is a valid sort key.
+ * speicific keys. Each enumeral is a valid sort key. To sort by a single key,
+ * directly provide the enum to sort by as the comparator. To sort by multiple
+ * keys, then use {@link #orderSort(ItemComparator...)}.
  * 
  */
 public enum ItemComparator implements Comparator<AbstractItem> {
@@ -51,11 +53,9 @@ public enum ItemComparator implements Comparator<AbstractItem> {
         return new Comparator<AbstractItem>() {
             @Override
             public int compare(AbstractItem o1, AbstractItem o2) {
-                /*
-                 * Loops through each item comparator, until there is an inequality (in which
-                 * case the inequality is returned). If no inequality is found, then the zero is
-                 * returned indicating that the items are even in all given keys
-                 */
+                // Loops through each item comparator, until there is an inequality (in which
+                // case the inequality is returned). If no inequality is found, then the zero is
+                // returned indicating that the items are even in all given keys
                 for (ItemComparator sortKey : itemComparators) {
                     int result = sortKey.compare(o1, o2);
                     if (result != 0) {
