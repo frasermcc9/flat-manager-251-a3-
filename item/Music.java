@@ -33,7 +33,7 @@ public class Music extends AbstractItem {
     public String getDetails() {
         String template = "'%s' by %s, %s. (%s, %s, %s, %s)";
 
-        return String.format(template, getTitle(), getCreator(), _releaseDate, getFormat(), getOwner(),
+        return String.format(template, getTitle(), getCreator(), _releaseDate.stringifyDate(), getFormat(), getOwner(),
                 getAcquireDate(), getCost());
 
     }
