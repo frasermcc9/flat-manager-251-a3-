@@ -4,7 +4,7 @@ package item;
  * A class for music items.
  */
 public class Music extends AbstractItem {
-    private String _releaseDate;
+    private CustomDate _releaseDate;
 
     /**
      * Creates a new music item.
@@ -21,7 +21,7 @@ public class Music extends AbstractItem {
     public Music(String artist, String title, String releaseDate, String acquireDate, String owner, String cost,
             String musicFormat) throws InvalidFormatException {
         super(artist, title, acquireDate, owner, cost, musicFormat);
-        _releaseDate = releaseDate;
+        _releaseDate = new CustomDate(releaseDate);
 
         validInput(musicFormat);
     }
@@ -57,10 +57,9 @@ public class Music extends AbstractItem {
      * @throws InvalidFormatException
      */
     private void validInput(String musicFormat) throws InvalidFormatException {
-        validInput(); // calls validInput() from super class
         if (!musicFormat.matches("^(CD)|(LP)$")) {
             throw new InvalidFormatException("CD Format is invalid. Please ensure format is 'CD' or 'LP'");
-        } else if (!_releaseDate.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+        } else if (!_releaseDate.stringifyDate().matches("^\\d{4}-\\d{2}-\\d{2}$")) {
             throw new InvalidFormatException("Publish Year format is invalid. Please ensure the format is 4 digits.");
         }
     }

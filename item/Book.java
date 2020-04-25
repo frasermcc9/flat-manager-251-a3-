@@ -24,12 +24,10 @@ public class Book extends AbstractItem {
     public Book(String author, String title, String pubYear, String publisher, String acquireDate, String owner,
             String cost, String bookFormat) throws InvalidFormatException {
         super(author, title, acquireDate, owner, cost, bookFormat);
-
         _pubYear = pubYear;
         _publisher = publisher;
 
         validInput(bookFormat, pubYear);
-
     }
 
     /**
@@ -59,7 +57,6 @@ public class Book extends AbstractItem {
      * @throws InvalidFormatException
      */
     public void validInput(String bookFormat, String pubYear) throws InvalidFormatException {
-        validInput();
         if (!bookFormat.matches("^(Hardcover)|(Paperback)$")) {
             throw new InvalidFormatException(
                     "Bookformat is invalid. Please ensure format is 'Hardcover' or 'Paperback'");
