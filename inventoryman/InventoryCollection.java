@@ -115,7 +115,7 @@ public class InventoryCollection {
      * @param flatName the name of the flat (for report heading)
      * @return list of strings containing the report
      */
-    public List<AbstractItem> inventoryReport() {
+    public List<AbstractItem> itemInventoryReport() {
         List<AbstractItem> items = new ArrayList<AbstractItem>(_items.values());
         Collections.sort(items, ItemComparator.orderSort(ItemComparator.Owner, ItemComparator.Format,
                 ItemComparator.Creator, ItemComparator.Title));

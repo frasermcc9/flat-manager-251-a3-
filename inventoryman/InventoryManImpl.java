@@ -72,7 +72,7 @@ public class InventoryManImpl implements InventoryMan {
 
     @Override
     public List<String> getFlatReport() {
-        return getDetailsList(_flatCollection.inventoryReport(), _flatName);
+        return getDetailsList(_flatCollection.itemInventoryReport(), _flatName);
     }
 
     /**
